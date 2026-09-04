@@ -2,16 +2,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import request from 'supertest';
 import { createApp } from '../../src/app.js';
 import { resetDb } from '../helpers/resetDb.js';
-
-async function signupAndLogin(app: ReturnType<typeof createApp>): Promise<string> {
-  await request(app)
-    .post('/auth/signup')
-    .send({ email: 'rider@example.com', password: 'correct-horse' });
-  const loginResponse = await request(app)
-    .post('/auth/login')
-    .send({ email: 'rider@example.com', password: 'correct-horse' });
-  return loginResponse.body.token as string;
-}
+import { signupAndLogin } from '../helpers/auth.js';
 
 describe('POST /auth/signup', () => {
   beforeEach(async () => {
