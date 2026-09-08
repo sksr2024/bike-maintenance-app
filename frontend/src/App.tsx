@@ -1,21 +1,37 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import './App.css'
-
-type HealthStatus = 'checking' | 'connected' | 'unreachable'
+import { clearToken, loadToken, saveToken } from './api'
+import { AuthForm } from './AuthForm'
+import { MaintenanceRecordsPage } from './MaintenanceRecordsPage'
 
 function App() {
-  const [status, setStatus] = useState<HealthStatus>('checking')
+  const [token, setToken] = useState<string | null>(null)
+  const [initialized, setInitialized] = useState(false)
 
   useEffect(() => {
-    fetch('/health')
-      .then((res) => (res.ok ? setStatus('connected') : setStatus('unreachable')))
-      .catch(() => setStatus('unreachable'))
+    setToken(loadToken())
+    setInitialized(true)
+  }, [])
+
+  function handleAuthenticated(newToken: string) {
+    saveToken(newToken)
+    setToken(newToken)
+  }
+
+  const handleLoggedOut = useCallback(() => {
+    clearToken()
+    setToken(null)
   }, [])
 
   return (
     <main>
       <h1>バイク整備記録</h1>
-      <p>backend: {status}</p>
+      {initialized &&
+        (token === null ? (
+          <AuthForm onAuthenticated={handleAuthenticated} />
+        ) : (
+          <MaintenanceRecordsPage token={token} onLoggedOut={handleLoggedOut} />
+        ))}
     </main>
   )
 }

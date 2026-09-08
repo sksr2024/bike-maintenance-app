@@ -7,6 +7,8 @@ export default defineConfig({
   server: {
     proxy: {
       '/health': 'http://localhost:3000',
+      '/auth': 'http://localhost:3000',
+      '/maintenance-records': 'http://localhost:3000',
     },
   },
 })
