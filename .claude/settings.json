@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(echo \"TYPECHECK EXIT:$?\")",
+      "Bash(echo \"BUILD EXIT:$?\")",
+      "Bash(curl -s http://localhost:5173/health)",
+      "Bash(curl -s http://localhost:5173/)",
+      "Bash(pkill -f \"tsx watch src/server.ts\")",
+      "Bash(pkill -f \"vite$\")",
+      "Bash(kill 17041 17042)",
+      "Bash(grep -E \"\\\\.env$|\\\\.env\\\\.local\")",
+      "Bash(git check-ignore *)",
+      "Bash(git add *)",
+      "Bash(git restore *)",
+      "Bash(git diff *)",
+      "Bash(DATABASE_URL=postgres://bad:bad@localhost:1/nonexistent npx tsx -e ' *)",
+      "Bash(npx tsx *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)"
+    ]
+  }
+}
